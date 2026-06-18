@@ -3,14 +3,22 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Tooltip,
   Legend,
 } from "chart.js";
 
-import { Bar } from "vue-chartjs";
+import { Line } from "vue-chartjs";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+);
 
 const props = defineProps<{
   labels: string[];
@@ -23,6 +31,7 @@ const chartData = {
     {
       label: "Events",
       data: props.values,
+      tension: 0.3,
     },
   ],
 };
@@ -30,12 +39,11 @@ const chartData = {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  indexAxis: "y" as const,
 };
 </script>
 
 <template>
   <div class="h-80">
-    <Bar :data="chartData" :options="chartOptions" />
+    <Line :data="chartData" :options="chartOptions" />
   </div>
 </template>

@@ -21,8 +21,10 @@ const chartData = {
   labels: props.labels,
   datasets: [
     {
-      label: "Events",
+      label: "Partitions",
       data: props.values,
+      backgroundColor: "#3B82F6", // optional
+      borderRadius: 4, // optional
     },
   ],
 };
@@ -30,7 +32,6 @@ const chartData = {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  indexAxis: "y" as const,
 };
 </script>
 
