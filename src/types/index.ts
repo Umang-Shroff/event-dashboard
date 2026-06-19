@@ -6,3 +6,5 @@ export * from "./revenue";
 export * from "./campaign";
 export * from "./hourly";
 export * from "./partition";
+export * from "./user";
+export * from "./device";

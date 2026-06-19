@@ -37,10 +37,10 @@ onMounted(async () => {
     revenue.value = await getRevenueAnalytics();
     tenants.value = await getTenantAnalytics();
     eventTypes.value = await getEventTypes();
-    console.log(
-      "Events: ",
-      eventTypes.value.map((e) => e.count),
-    );
+    // console.log(
+    //   "Events: ",
+    //   eventTypes.value.map((e) => e.count),
+    // );
   } catch (error) {
     console.error(error);
   }

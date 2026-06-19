@@ -35,6 +35,16 @@ export const getPartitionAnalytics = async () => {
   return response.data;
 };
 
+export const getTopUsers = async () => {
+  const response = await api.get("/dashboard/users");
+  return response.data;
+};
+
+export const getDeviceAnalytics = async () => {
+  const response = await api.get("/dashboard/devices");
+  return response.data;
+};
+
 export const checkHealth = async () => {
   const response = await api.get("/dashboard/health");
   return response.data;
