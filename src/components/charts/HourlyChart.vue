@@ -8,7 +8,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
+import { computed } from "vue";
+import { watchEffect } from "vue";
 import { Line } from "vue-chartjs";
 
 ChartJS.register(
@@ -25,7 +26,7 @@ const props = defineProps<{
   values: number[];
 }>();
 
-const chartData = {
+const chartData = computed(() => ({
   labels: props.labels,
   datasets: [
     {
@@ -34,7 +35,12 @@ const chartData = {
       tension: 0.3,
     },
   ],
-};
+}));
+
+watchEffect(() => {
+  console.log("labels", props.labels);
+  console.log("values", props.values);
+});
 
 const chartOptions = {
   responsive: true,

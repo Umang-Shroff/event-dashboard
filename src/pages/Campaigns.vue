@@ -32,6 +32,7 @@ const totalClicks = computed(() =>
 
     <!-- BAR CHART -->
     <AnalyticsCard title="Top Campaigns">
+      <h2 class="text-xl text-slate-800/80 font-bold mb-8">Top Campaigns</h2>
       <CampaignBarChart
         :labels="campaigns.map((c) => c.campaignId)"
         :values="campaigns.map((c) => c.clicks)"
@@ -40,6 +41,7 @@ const totalClicks = computed(() =>
 
     <!-- PIE CHART -->
     <AnalyticsCard title="Campaign Share">
+      <h2 class="text-xl text-slate-800/80 font-bold mb-8">Campaign Share</h2>
       <CampaignPieChart
         :labels="campaigns.map((c) => c.campaignId)"
         :values="campaigns.map((c) => c.clicks)"

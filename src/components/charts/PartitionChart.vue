@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { computed } from "vue";
 
 import { Bar } from "vue-chartjs";
 
@@ -17,7 +18,7 @@ const props = defineProps<{
   values: number[];
 }>();
 
-const chartData = {
+const chartData = computed(() => ({
   labels: props.labels,
   datasets: [
     {
@@ -27,7 +28,7 @@ const chartData = {
       borderRadius: 4, // optional
     },
   ],
-};
+}));
 
 const chartOptions = {
   responsive: true,
