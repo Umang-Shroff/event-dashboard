@@ -8,7 +8,10 @@ const sidebarOpen = ref(true);
 <template>
   <div class="h-screen bg-slate-100 flex">
     <!-- SIDEBAR -->
-    <aside v-if="sidebarOpen" class="w-64 bg-white border-r shrink-0 relative">
+    <aside
+      v-if="sidebarOpen"
+      class="w-64 bg-white border-r border-slate-300 shadow-md shrink-0 relative"
+    >
       <button
         class="absolute top-7 text-blue-800 right-4 p-1 rounded hover:bg-blue-100 cursor-pointer opacity-80"
         @click="sidebarOpen = false"

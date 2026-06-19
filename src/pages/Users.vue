@@ -41,6 +41,12 @@ onMounted(async () => {
   }
 });
 
+const eventsPerUser = computed(() =>
+  overview.value.totalUsers
+    ? overview.value.totalEvents / overview.value.totalUsers
+    : 0,
+);
+
 const totalDeviceEvents = computed(() =>
   devices.value.reduce((sum, device) => sum + device.events, 0),
 );
@@ -54,21 +60,69 @@ const totalDeviceEvents = computed(() =>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <MetricCard title="Total Users" :value="overview.totalUsers" />
 
-      <!-- Placeholder until Active Users API exists -->
-      <MetricCard title="Active Users" value="N/A" />
+      <MetricCard title="Events Per User" :value="eventsPerUser" />
     </div>
 
-    <!-- DEVICE DISTRIBUTION -->
-    <AnalyticsCard title="Device Distribution">
-      <h2 class="text-xl text-slate-800/80 font-bold mb-8">
-        Device Distribution
-      </h2>
+    <!-- DEVICE SECTION -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+      <!-- DEVICE PIE CHART -->
+      <AnalyticsCard title="Device Distribution">
+        <h2 class="text-xl text-slate-800/80 font-bold mb-8">
+          Device Distribution
+        </h2>
 
-      <DeviceChart
-        :devices="devices.map((d) => d.device)"
-        :events="devices.map((d) => d.events)"
-      />
-    </AnalyticsCard>
+        <DeviceChart
+          :devices="devices.map((d) => d.device)"
+          :events="devices.map((d) => d.events)"
+        />
+      </AnalyticsCard>
+
+      <!-- DEVICE TABLE (CLEAN CENTERED) -->
+      <AnalyticsCard title="Device Breakdown">
+        <h2 class="text-xl font-bold text-slate-800/80 mb-6">
+          Device Breakdown
+        </h2>
+
+        <div class="flex items-center justify-center">
+          <div class="w-full space-y-2">
+            <!-- Header Row -->
+            <div
+              class="grid grid-cols-3 px-4 py-6 text-xs font-semibold border-b border-slate-400 shadow-md uppercase tracking-wider text-slate-500"
+            >
+              <div>Device</div>
+              <div class="text-center">Events</div>
+              <div class="text-right">Share</div>
+            </div>
+
+            <!-- Data Rows -->
+            <div
+              v-for="device in devices"
+              :key="device.device"
+              class="grid grid-cols-3 items-center mt-5 px-4 py-3 rounded-xl bg-white shadow-sm border border-slate-100 hover:shadow-md hover:bg-slate-50 transition-all"
+            >
+              <!-- Device Name -->
+              <div class="font-medium text-slate-700 truncate">
+                {{ device.device === "" ? "Unknown Device" : device.device }}
+              </div>
+
+              <!-- Events -->
+              <div class="text-center font-semibold text-slate-600">
+                {{ device.events }}
+              </div>
+
+              <!-- Percentage -->
+              <div class="text-right text-sm font-semibold text-slate-500">
+                {{
+                  totalDeviceEvents
+                    ? ((device.events * 100) / totalDeviceEvents).toFixed(2)
+                    : "0.00"
+                }}%
+              </div>
+            </div>
+          </div>
+        </div>
+      </AnalyticsCard>
+    </div>
 
     <!-- USER LEADERBOARD -->
     <AnalyticsCard title="User Leaderboard">
@@ -80,61 +134,41 @@ const totalDeviceEvents = computed(() =>
       />
     </AnalyticsCard>
 
-    <!-- DEVICE DETAILS -->
-    <AnalyticsCard title="Device Details">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b">
-            <th class="text-left p-3">Device</th>
-            <th class="text-left p-3">Events</th>
-            <th class="text-left p-3">Share</th>
-          </tr>
-        </thead>
+    <!-- TOP USERS TABLE -->
+    <AnalyticsCard title="Top Users">
+      <h2 class="text-xl text-slate-800/80 font-bold mb-8">Top Users</h2>
 
-        <tbody>
-          <tr v-for="device in devices" :key="device.device" class="border-b">
-            <td class="p-2">
-              {{ device.device }}
-            </td>
+      <!-- CENTER CONTAINER -->
+      <div class="flex justify-center">
+        <div
+          class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm"
+        >
+          <!-- Header -->
+          <div
+            class="flex items-center px-4 py-3 bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500"
+          >
+            <div class="flex-1">User ID</div>
+            <div class="w-20 text-center">Events</div>
+          </div>
 
-            <td class="p-2">
-              {{ device.events }}
-            </td>
+          <!-- Rows -->
+          <div>
+            <div
+              v-for="user in users"
+              :key="user.userId"
+              class="flex items-center px-4 py-3 border-t border-slate-100 hover:bg-slate-50 transition"
+            >
+              <div class="flex-1 font-medium text-slate-700 truncate">
+                {{ user.userId }}
+              </div>
 
-            <td class="p-2">
-              {{
-                totalDeviceEvents
-                  ? ((device.events * 100) / totalDeviceEvents).toFixed(2)
-                  : "0.00"
-              }}%
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </AnalyticsCard>
-
-    <!-- USER DETAILS -->
-    <AnalyticsCard title="User Details">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b">
-            <th class="text-left p-3">User ID</th>
-            <th class="text-left p-3">Events</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="user in users" :key="user.userId" class="border-b">
-            <td class="p-2">
-              {{ user.userId }}
-            </td>
-
-            <td class="p-2">
-              {{ user.events }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <div class="w-20 text-center font-semibold text-slate-600">
+                {{ user.events }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </AnalyticsCard>
   </div>
 </template>
