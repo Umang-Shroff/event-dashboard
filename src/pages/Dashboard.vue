@@ -56,10 +56,18 @@ const tenantNames: Record<string, string> = {
 
 <template>
   <DashboardLayout>
-    <div class="space-y-6">
-      <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+    <div class="space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-xl font-medium text-slate-700">Dashboard</h1>
+          <p class="text-xs text-slate-500 mt-1">
+            Overview of events, users, revenue and tenant activity
+          </p>
+        </div>
+      </div>
+
       <!-- OVERVIEW INFO -->
-      <div class="grid grid-cols-4 gap-4">
+      <div class="grid grid-cols-4 gap-3">
         <MetricCard title="Total Events" :value="overview.totalEvents" />
 
         <MetricCard title="Revenue" :value="'₹' + overview.totalRevenue" />
@@ -70,11 +78,14 @@ const tenantNames: Record<string, string> = {
       </div>
 
       <!-- REVENUE INFO -->
-      <!-- <div class="mt-10"> -->
-      <AnalyticsCard title="Revenue Analytics" class="mt-8">
-        <h2 class="text-xl font-bold mb-4">Revenue Analytics</h2>
+      <AnalyticsCard title="Revenue Analytics" class="mt-2">
+        <div class="mb-4">
+          <h2 class="text-base font-medium text-slate-700">
+            Revenue Analytics
+          </h2>
+        </div>
 
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-3">
           <MetricCard
             title="Total Revenue"
             :value="'₹' + revenue.totalRevenue"
@@ -88,12 +99,14 @@ const tenantNames: Record<string, string> = {
           />
         </div>
       </AnalyticsCard>
-      <!-- </div> -->
 
       <!-- CHARTS -->
-      <div class="grid grid-cols-2 gap-6">
+      <div class="grid grid-cols-2 gap-4">
         <AnalyticsCard title="Event Type Distribution">
-          <h2 class="text-xl text-slate-800/80 font-bold mb-8">Event Types</h2>
+          <div class="mb-4">
+            <h2 class="text-sm font-medium text-slate-700">Event Types</h2>
+          </div>
+
           <EventTypeChart
             :labels="eventTypes.map((e) => e.eventType)"
             :values="eventTypes.map((e) => e.count)"
@@ -101,9 +114,12 @@ const tenantNames: Record<string, string> = {
         </AnalyticsCard>
 
         <AnalyticsCard title="Tenant Distribution">
-          <h2 class="text-xl text-slate-800/80 font-bold mb-8">
-            Tenant Distribution
-          </h2>
+          <div class="mb-4">
+            <h2 class="text-sm font-medium text-slate-700">
+              Tenant Distribution
+            </h2>
+          </div>
+
           <TenantChart
             :labels="tenants.map((t) => tenantNames[t.tenantId])"
             :values="tenants.map((t) => t.events)"

@@ -35,7 +35,10 @@ onMounted(async () => {
 
     overview.value = overviewData;
     users.value = userAnalytics;
-    devices.value = deviceAnalytics;
+    devices.value = deviceAnalytics.map((d: DeviceAnalytics) => ({
+      ...d,
+      device: d.device === "" ? "Unknown Devices" : d.device,
+    }));
   } catch (error) {
     console.error(error);
   }
@@ -53,23 +56,31 @@ const totalDeviceEvents = computed(() =>
 </script>
 
 <template>
-  <div class="space-y-6">
-    <h1 class="text-3xl mb-6 font-bold">User Analytics</h1>
+  <div class="space-y-4">
+    <div>
+      <h1 class="text-xl font-medium text-slate-700">User Analytics</h1>
+
+      <p class="text-xs text-slate-500 mt-1">
+        User activity, engagement and device distribution metrics
+      </p>
+    </div>
 
     <!-- USER METRICS -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
       <MetricCard title="Total Users" :value="overview.totalUsers" />
 
       <MetricCard title="Events Per User" :value="eventsPerUser" />
     </div>
 
     <!-- DEVICE SECTION -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
       <!-- DEVICE PIE CHART -->
       <AnalyticsCard title="Device Distribution">
-        <h2 class="text-xl text-slate-800/80 font-bold mb-8">
-          Device Distribution
-        </h2>
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">
+            Device Distribution
+          </h2>
+        </div>
 
         <DeviceChart
           :devices="devices.map((d) => d.device)"
@@ -77,47 +88,42 @@ const totalDeviceEvents = computed(() =>
         />
       </AnalyticsCard>
 
-      <!-- DEVICE TABLE (CLEAN CENTERED) -->
+      <!-- DEVICE TABLE -->
       <AnalyticsCard title="Device Breakdown">
-        <h2 class="text-xl font-bold text-slate-800/80 mb-6">
-          Device Breakdown
-        </h2>
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">Device Breakdown</h2>
+        </div>
 
-        <div class="flex items-center justify-center">
-          <div class="w-full space-y-2">
-            <!-- Header Row -->
-            <div
-              class="grid grid-cols-3 px-4 py-6 text-xs font-semibold border-b border-slate-400 shadow-md uppercase tracking-wider text-slate-500"
-            >
-              <div>Device</div>
-              <div class="text-center">Events</div>
-              <div class="text-right">Share</div>
+        <div class="w-full overflow-hidden border border-[#dfe3e8] rounded">
+          <!-- Header Row -->
+          <div
+            class="grid grid-cols-3 px-4 py-3 text-[11px] font-medium uppercase tracking-wide text-slate-500 bg-[#fafbfc] border-b border-[#dfe3e8]"
+          >
+            <div>Device</div>
+            <div class="text-center">Events</div>
+            <div class="text-right">Share</div>
+          </div>
+
+          <!-- Data Rows -->
+          <div
+            v-for="device in devices"
+            :key="device.device"
+            class="grid grid-cols-3 items-center px-4 py-3 border-b border-[#eef1f4] hover:bg-[#fafbfc]"
+          >
+            <div class="text-sm text-slate-700 truncate">
+              {{ device.device }}
             </div>
 
-            <!-- Data Rows -->
-            <div
-              v-for="device in devices"
-              :key="device.device"
-              class="grid grid-cols-3 items-center mt-5 px-4 py-3 rounded-xl bg-white shadow-sm border border-slate-100 hover:shadow-md hover:bg-slate-50 transition-all"
-            >
-              <!-- Device Name -->
-              <div class="font-medium text-slate-700 truncate">
-                {{ device.device === "" ? "Unknown Device" : device.device }}
-              </div>
+            <div class="text-center text-sm text-slate-700">
+              {{ device.events }}
+            </div>
 
-              <!-- Events -->
-              <div class="text-center font-semibold text-slate-600">
-                {{ device.events }}
-              </div>
-
-              <!-- Percentage -->
-              <div class="text-right text-sm font-semibold text-slate-500">
-                {{
-                  totalDeviceEvents
-                    ? ((device.events * 100) / totalDeviceEvents).toFixed(2)
-                    : "0.00"
-                }}%
-              </div>
+            <div class="text-right text-sm text-slate-600">
+              {{
+                totalDeviceEvents
+                  ? ((device.events * 100) / totalDeviceEvents).toFixed(2)
+                  : "0.00"
+              }}%
             </div>
           </div>
         </div>
@@ -126,7 +132,9 @@ const totalDeviceEvents = computed(() =>
 
     <!-- USER LEADERBOARD -->
     <AnalyticsCard title="User Leaderboard">
-      <h2 class="text-xl text-slate-800/80 font-bold mb-8">User Leaderboard</h2>
+      <div class="mb-4">
+        <h2 class="text-sm font-medium text-slate-700">User Leaderboard</h2>
+      </div>
 
       <UserChart
         :user-ids="users.map((u) => u.userId)"
@@ -136,35 +144,32 @@ const totalDeviceEvents = computed(() =>
 
     <!-- TOP USERS TABLE -->
     <AnalyticsCard title="Top Users">
-      <h2 class="text-xl text-slate-800/80 font-bold mb-8">Top Users</h2>
+      <div class="mb-4">
+        <h2 class="text-sm font-medium text-slate-700">Top Users</h2>
+      </div>
 
-      <!-- CENTER CONTAINER -->
-      <div class="flex justify-center">
+      <div class="w-full overflow-hidden border border-[#dfe3e8] rounded">
+        <!-- Header -->
         <div
-          class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm"
+          class="flex items-center px-4 py-3 bg-[#fafbfc] text-[11px] font-medium uppercase tracking-wide text-slate-500 border-b border-[#dfe3e8]"
         >
-          <!-- Header -->
+          <div class="flex-1">User ID</div>
+          <div class="w-24 text-center">Events</div>
+        </div>
+
+        <!-- Rows -->
+        <div>
           <div
-            class="flex items-center px-4 py-3 bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500"
+            v-for="user in users"
+            :key="user.userId"
+            class="flex items-center px-4 py-3 border-b border-[#eef1f4] hover:bg-[#fafbfc]"
           >
-            <div class="flex-1">User ID</div>
-            <div class="w-20 text-center">Events</div>
-          </div>
+            <div class="flex-1 text-sm text-slate-700 truncate">
+              {{ user.userId }}
+            </div>
 
-          <!-- Rows -->
-          <div>
-            <div
-              v-for="user in users"
-              :key="user.userId"
-              class="flex items-center px-4 py-3 border-t border-slate-100 hover:bg-slate-50 transition"
-            >
-              <div class="flex-1 font-medium text-slate-700 truncate">
-                {{ user.userId }}
-              </div>
-
-              <div class="w-20 text-center font-semibold text-slate-600">
-                {{ user.events }}
-              </div>
+            <div class="w-24 text-center text-sm text-slate-700">
+              {{ user.events }}
             </div>
           </div>
         </div>

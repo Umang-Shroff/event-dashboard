@@ -46,58 +46,68 @@ const tenantNames: Record<string, string> = {
 
 <template>
   <DashboardLayout>
-    <div class="space-y-6">
-      <h1 class="text-3xl font-bold mb-6">Analytics Overview</h1>
+    <div class="space-y-4">
+      <div>
+        <h1 class="text-xl font-medium text-slate-700">Analytics Overview</h1>
+
+        <p class="text-xs text-slate-500 mt-1">
+          Event trends and distribution across tenants and partitions
+        </p>
+      </div>
 
       <!-- EVENT TYPE INFO -->
-      <div class="mt-10">
-        <AnalyticsCard title="Event Type Distribution">
-          <h2 class="text-xl text-slate-800/80 font-bold mb-8">Event Types</h2>
-          <EventTypeChart
-            :labels="eventTypes.map((e) => e.eventType)"
-            :values="eventTypes.map((e) => e.count)"
-          />
-        </AnalyticsCard>
-      </div>
+      <AnalyticsCard title="Event Type Distribution">
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">
+            Event Type Distribution
+          </h2>
+        </div>
+
+        <EventTypeChart
+          :labels="eventTypes.map((e) => e.eventType)"
+          :values="eventTypes.map((e) => e.count)"
+        />
+      </AnalyticsCard>
 
       <!-- TENANTS INFO -->
-      <div class="mt-10">
-        <AnalyticsCard title="Tenant Distribution">
-          <h2 class="text-xl text-slate-800/80 font-bold mb-8">
+      <AnalyticsCard title="Tenant Distribution">
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">
             Tenant Distribution
           </h2>
-          <TenantChart
-            :labels="tenants.map((t) => tenantNames[t.tenantId])"
-            :values="tenants.map((t) => t.events)"
-          />
-        </AnalyticsCard>
-      </div>
+        </div>
+
+        <TenantChart
+          :labels="tenants.map((t) => tenantNames[t.tenantId])"
+          :values="tenants.map((t) => t.events)"
+        />
+      </AnalyticsCard>
 
       <!-- HOURLY INFO -->
-      <div class="mt-10">
-        <AnalyticsCard title="Hourly Analytics">
-          <h2 class="text-xl text-slate-800/80 font-bold mb-8">
-            Hourly Analytics
-          </h2>
-          <HourlyChart
-            :labels="hourly.map((h) => h.hour)"
-            :values="hourly.map((h) => h.count)"
-          />
-        </AnalyticsCard>
-      </div>
+      <AnalyticsCard title="Hourly Analytics">
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">Hourly Analytics</h2>
+        </div>
+
+        <HourlyChart
+          :labels="hourly.map((h) => h.hour)"
+          :values="hourly.map((h) => h.count)"
+        />
+      </AnalyticsCard>
 
       <!-- PARTITION INFO -->
-      <div class="mt-10">
-        <AnalyticsCard title="Partition Distribution">
-          <h2 class="text-xl text-slate-800/80 font-bold mb-8">
+      <AnalyticsCard title="Partition Distribution">
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">
             Partition Distribution
           </h2>
-          <PartitionChart
-            :labels="partitions.map((p) => `Partition ${p.partitionId}`)"
-            :values="partitions.map((p) => p.events)"
-          />
-        </AnalyticsCard>
-      </div>
+        </div>
+
+        <PartitionChart
+          :labels="partitions.map((p) => `Partition ${p.partitionId}`)"
+          :values="partitions.map((p) => p.events)"
+        />
+      </AnalyticsCard>
     </div>
   </DashboardLayout>
 </template>

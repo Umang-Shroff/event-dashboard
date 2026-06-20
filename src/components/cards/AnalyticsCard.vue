@@ -6,13 +6,9 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
-  >
+  <div class="bg-white rounded border border-[#dfe3e8] overflow-hidden">
     <!-- Header -->
-    <div
-      class="px-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white"
-    >
+    <div class="px-5 py-3 border-b border-[#eceff3] bg-[#fafbfc]">
       <!-- <h2 class="text-lg font-semibold text-slate-800">
         {{ title }}
       </h2> -->
@@ -23,7 +19,7 @@ defineProps<{
     </div>
 
     <!-- Content -->
-    <div class="p-6">
+    <div class="p-5">
       <slot />
     </div>
   </div>

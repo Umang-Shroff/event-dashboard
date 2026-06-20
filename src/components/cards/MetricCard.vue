@@ -6,14 +6,12 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
-  >
-    <p class="text-sm font-medium text-slate-500 uppercase tracking-wide">
+  <div class="bg-white rounded border border-[#dfe3e8] px-5 py-4">
+    <p class="text-[11px] font-medium text-slate-500 uppercase tracking-wide">
       {{ title }}
     </p>
 
-    <h2 class="mt-3 text-4xl font-bold text-slate-800">
+    <h2 class="mt-2 text-3xl font-semibold text-slate-700 leading-none">
       {{ value }}
     </h2>
   </div>

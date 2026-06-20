@@ -16,15 +16,17 @@ const chartData = computed(() => ({
     {
       data: props.events,
       backgroundColor: [
-        "#3b82f6",
-        "#ef4444",
-        "#10b981",
+        "#2f378f",
+        "#5964c7",
+        "#7c88dd",
+        "#9ba4ea",
+        "#16a34a",
         "#f59e0b",
-        "#8b5cf6",
-        "#14b8a6",
-        "#f97316",
+        "#ef4444",
       ],
-      borderWidth: 1,
+      borderColor: "#ffffff",
+      borderWidth: 2,
+      hoverOffset: 6,
     },
   ],
 }));
@@ -32,20 +34,43 @@ const chartData = computed(() => ({
 const chartOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
+  layout: {
+    padding: {
+      top: 8,
+      right: 8,
+      bottom: 8,
+      left: 8,
+    },
+  },
   plugins: {
     tooltip: {
       enabled: true,
+      backgroundColor: "#1e293b",
+      titleColor: "#ffffff",
+      bodyColor: "#ffffff",
+      padding: 10,
+      displayColors: true,
+      cornerRadius: 4,
     },
     legend: {
       display: true,
       position: "bottom" as const,
+      labels: {
+        color: "#475569",
+        boxWidth: 12,
+        boxHeight: 12,
+        padding: 16,
+        font: {
+          size: 11,
+        },
+      },
     },
   },
 }));
 </script>
 
 <template>
-  <div style="height: 350px">
+  <div class="h-[320px] w-full">
     <Pie :data="chartData" :options="chartOptions" />
   </div>
 </template>

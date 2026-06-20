@@ -18,12 +18,12 @@ const props = defineProps<{
 }>();
 
 const colors = [
-  "#5B6CFF",
-  "#2A9D8F",
-  "#E76F51",
-  "#8D6EFD",
-  "#D9779B",
-  "#457B9D",
+  "#2f378f",
+  "#5964c7",
+  "#7c88dd",
+  "#9ba4ea",
+  "#16a34a",
+  "#f59e0b",
 ];
 
 const chartData = computed(() => ({
@@ -33,19 +33,36 @@ const chartData = computed(() => ({
       label: "Events",
       data: props.events,
       backgroundColor: props.events.map((_, i) => colors[i % colors.length]),
-      borderRadius: 8,
+      hoverBackgroundColor: "#3c47b3",
+      borderRadius: 3,
       borderSkipped: false,
+      barThickness: 14,
+      maxBarThickness: 18,
     },
   ],
 }));
 
-const chartOptions = computed(() => ({
+const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   indexAxis: "y" as const,
+  layout: {
+    padding: {
+      top: 8,
+      right: 12,
+      bottom: 4,
+      left: 4,
+    },
+  },
   plugins: {
     tooltip: {
       enabled: true,
+      backgroundColor: "#1e293b",
+      titleColor: "#ffffff",
+      bodyColor: "#ffffff",
+      padding: 10,
+      displayColors: false,
+      cornerRadius: 4,
     },
     legend: {
       display: false,
@@ -54,18 +71,35 @@ const chartOptions = computed(() => ({
   scales: {
     x: {
       beginAtZero: true,
+      grid: {
+        color: "#eef1f4",
+        drawBorder: false,
+      },
+      ticks: {
+        color: "#64748b",
+        font: {
+          size: 11,
+        },
+      },
     },
     y: {
       grid: {
         display: false,
       },
+      ticks: {
+        color: "#475569",
+        font: {
+          size: 11,
+          weight: 500,
+        },
+      },
     },
   },
-}));
+};
 </script>
 
 <template>
-  <div class="h-80">
+  <div class="h-[320px] w-full">
     <Bar :data="chartData" :options="chartOptions" />
   </div>
 </template>

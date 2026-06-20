@@ -26,35 +26,64 @@ const totalClicks = computed(() =>
 
 <template>
   <!-- CAMPAIGN INFO -->
-  <div class="space-y-6">
-    <h1 class="text-3xl mb-6 font-bold">Campaign Analytics</h1>
-    <MetricCard title="Total Campaign Clicks" :value="totalClicks" />
+  <div class="space-y-4">
+    <div>
+      <h1 class="text-xl font-medium text-slate-700">Campaign Analytics</h1>
 
-    <!-- BAR CHART -->
-    <AnalyticsCard title="Top Campaigns">
-      <h2 class="text-xl text-slate-800/80 font-bold mb-8">Top Campaigns</h2>
-      <CampaignBarChart
-        :labels="campaigns.map((c) => c.campaignId)"
-        :values="campaigns.map((c) => c.clicks)"
-      />
-    </AnalyticsCard>
+      <p class="text-xs text-slate-500 mt-1">
+        Campaign performance, click distribution and engagement metrics
+      </p>
+    </div>
 
-    <!-- PIE CHART -->
-    <AnalyticsCard title="Campaign Share">
-      <h2 class="text-xl text-slate-800/80 font-bold mb-8">Campaign Share</h2>
-      <CampaignPieChart
-        :labels="campaigns.map((c) => c.campaignId)"
-        :values="campaigns.map((c) => c.clicks)"
-      />
-    </AnalyticsCard>
+    <div class="grid grid-cols-1">
+      <MetricCard title="Total Campaign Clicks" :value="totalClicks" />
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <!-- BAR CHART -->
+      <AnalyticsCard title="Top Campaigns">
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">Top Campaigns</h2>
+        </div>
+
+        <CampaignBarChart
+          :labels="campaigns.map((c) => c.campaignId)"
+          :values="campaigns.map((c) => c.clicks)"
+        />
+      </AnalyticsCard>
+
+      <!-- PIE CHART -->
+      <AnalyticsCard title="Campaign Share">
+        <div class="mb-4">
+          <h2 class="text-sm font-medium text-slate-700">Campaign Share</h2>
+        </div>
+
+        <CampaignPieChart
+          :labels="campaigns.map((c) => c.campaignId)"
+          :values="campaigns.map((c) => c.clicks)"
+        />
+      </AnalyticsCard>
+    </div>
 
     <AnalyticsCard title="Campaign Details">
-      <table class="w-full">
+      <div class="mb-4">
+        <h2 class="text-sm font-medium text-slate-700">Campaign Details</h2>
+      </div>
+
+      <table class="w-full text-sm">
         <thead>
-          <tr class="border-b">
-            <th class="text-left p-3">Campaign</th>
-            <th class="text-left p-3">Clicks</th>
-            <th class="text-left p-3">Share</th>
+          <tr class="border-b border-[#dfe3e8] bg-[#fafbfc]">
+            <th class="text-left px-4 py-3 font-medium text-slate-600">
+              Campaign
+            </th>
+
+            <th class="text-left px-4 py-3 font-medium text-slate-600">
+              Clicks
+            </th>
+
+            <th class="text-left px-4 py-3 font-medium text-slate-600">
+              Share
+            </th>
           </tr>
         </thead>
 
@@ -62,17 +91,17 @@ const totalClicks = computed(() =>
           <tr
             v-for="campaign in campaigns"
             :key="campaign.campaignId"
-            class="border-b"
+            class="border-b border-[#eef1f4] hover:bg-[#fafbfc]"
           >
-            <td class="p-2">
+            <td class="px-4 py-3 text-slate-700">
               {{ campaign.campaignId }}
             </td>
 
-            <td class="p-2">
+            <td class="px-4 py-3 text-slate-700">
               {{ campaign.clicks }}
             </td>
 
-            <td class="p-2">
+            <td class="px-4 py-3 text-slate-700">
               {{
                 totalClicks
                   ? ((campaign.clicks * 100) / totalClicks).toFixed(2)
