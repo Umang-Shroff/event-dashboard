@@ -41,6 +41,15 @@ This repository provides the visualization layer of the system, transforming ana
 
 ---
 
+## Dashboard
+
+![Dashboard](./public/Dashboard.png)
+![Dashboard](./public/Analytics.png)
+![Dashboard](./public/Campaign.png)
+![Dashboard](./public/Users.png)
+
+---
+
 ## Features
 
 - Dashboard overview metrics
